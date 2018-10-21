@@ -1,0 +1,14 @@
+import os
+if os.getenv('ORIGINAL_PYTHONSTARTUP'):
+    with(open(os.getenv('ORIGINAL_PYTHONSTARTUP'))) as f:
+        exec(f.read())
+
+from inspect import getfile, currentframe
+from os.path import realpath, dirname
+import sys
+
+sys.path.append(dirname(realpath(getfile(currentframe()))))
+from pyexecserver import PyExecServer
+
+pyexecserver = PyExecServer(int(os.getenv('PYEXECPORT', '35000')), globals())
+pyexecserver.start()
